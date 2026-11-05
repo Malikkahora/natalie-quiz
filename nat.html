@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Relationship Test 💖</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            text-align: center;
+            max-width: 440px;
+            width: 90%;
+            position: relative;
+        }
+
+        h1 {
+            color: #ff4757;
+            font-size: 21px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #57606f;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: relative;
+            min-height: 50px;
+        }
+
+        button {
+            padding: 12px 22px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .primary-btn {
+            background-color: #ff4757;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .primary-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .secondary-btn {
+            background-color: #f1f2f6;
+            color: #2f3542;
+        }
+
+        .secondary-btn:hover {
+            background-color: #dfe4ea;
+        }
+
+        .dodge-btn {
+            position: absolute;
+            background-color: #ff4757;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .success-message {
+            font-size: 20px;
+            color: #2f3542;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress {
+            font-size: 12px;
+            color: #a4b0be;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Romantic Text Slider Styles */
+        .affirmation-slider {
+            margin-top: 25px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .affirmation-text {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            position: absolute;
+        }
+
+        .affirmation-text.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <div class="progress" id="progressText">Question 1 of 5</div>
+        
+        <div id="quizContainer">
+            <h1 id="questionTitle">Loading question...</h1>
+            <p id="questionSubtitle">Think carefully...</p>
+            <div class="btn-container" id="btnContainer"></div>
+        </div>
+
+        <div id="successView" class="hidden">
+            <h1 class="success-message">She said YES! 🎉</h1>
+            <p class="success-message">You passed the test and made the best choice. Click below to send your answers straight to WhatsApp! ❤️🌹</p>
+            <a id="whatsappBtn" href="#" target="_blank" class="primary-btn">Send My Answers to WhatsApp 💌</a>
+        </div>
+    </div>
+
+    <!-- Affirmation Slider Below the Card -->
+    <div class="affirmation-slider" id="sliderContainer">
+        <div class="affirmation-text active">✨ Natalie, you light up every single room you walk into.</div>
+        <div class="affirmation-text">💖 Your smile is absolute perfection, Natalie.</div>
+        <div class="affirmation-text">🌹 Life is infinitely better with you in it, Natalie.</div>
+        <div class="affirmation-text">✨ Forever isn't long enough with a belle like Natalie.</div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                title: "Who said 'I love you' first?",
+                subtitle: "Let's test your memory..."
+            },
+            {
+                title: "Did you fall for me on the first day?",
+                subtitle: "Be completely honest..."
+            },
+            {
+                title: "What are some of the things I do that make you happy?",
+                subtitle: "Multiple correct answers possible..."
+            },
+            {
+                title: "What is your favorite memory of us to date?",
+                subtitle: "Take a trip down memory lane..."
+            },
+            {
+                title: "Final Question: Would you be my belle? 🌹✨",
+                subtitle: "Choose wisely..."
+            }
+        ];
+
+        const questionChoices = [
+            ["You did ✨", "I did 🥰", "We both said it at the exact same time 🤝"],
+            ["Instantly! 💘", "It took a little charm... 😉", "Only after you shared your food 🍟"],
+            ["Making me laugh 😂", "Checking in on me 📱", "Just being you ❤️"],
+            ["Our first real date 🍷", "All our spontaneous hangs ✨", "Too many special moments to pick just one 🥰"],
+            ["Yes, a thousand times yes! ❤️", "No 😜"]
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) return;
+            
+            const q = questions[currentQuestion];
+            document.getElementById('progressText').innerText = `Question ${currentQuestion + 1} of ${questions.length}`;
+            document.getElementById('questionTitle').innerText = q.title;
+            document.getElementById('questionSubtitle').innerText = q.subtitle;
+
+            const container = document.getElementById('btnContainer');
+            container.innerHTML = '';
+
+            const choices = questionChoices[currentQuestion];
+
+            choices.forEach((choiceText) => {
+                const btn = document.createElement('button');
+                btn.innerText = choiceText;
+                
+                if (currentQuestion === 4 && choiceText === "No 😜") {
+                    btn.className = 'dodge-btn';
+                    btn.id = 'dodgeBtn';
+                    btn.onmouseover = dodgeButton;
+                    btn.onclick = dodgeButton;
+                } else if (currentQuestion === 4 && choiceText.includes("Yes")) {
+                    btn.className = 'primary-btn';
+                    btn.onclick = () => selectAnswer(choiceText, 'finish');
+                } else {
+                    btn.className = 'secondary-btn';
+                    btn.style.backgroundColor = choiceText.includes("!") || choiceText.includes("✨") || choiceText.includes("❤️") ? '#ff4757' : '#f1f2f6';
+                    btn.style.color = btn.style.backgroundColor === 'rgb(255, 71, 87)' ? 'white' : '#2f3542';
+                    btn.onclick = () => selectAnswer(choiceText, 'next');
+                }
+
+                container.appendChild(btn);
+            });
+        }
+
+        function dodgeButton() {
+            const btn = document.getElementById('dodgeBtn');
+            const card = document.getElementById('mainCard');
+            
+            const maxX = card.clientWidth - btn.clientWidth - 40;
+            const maxY = 120;
+
+            const randomX = Math.floor(Math.random() * maxX) - (maxX / 2);
+            const randomY = Math.floor(Math.random() * maxY) - (maxY / 2);
+
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function selectAnswer(answerText, actionType) {
+            userAnswers[currentQuestion] = answerText;
+
+            if (actionType === 'next') {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                }
+            } else if (actionType === 'finish') {
+                document.getElementById('quizContainer').classList.add('hidden');
+                document.getElementById('progressText').classList.add('hidden');
+                document.getElementById('successView').classList.remove('hidden');
+
+                let summary = "💖 *Quiz Results from Natalie:* 💖\n\n";
+                questions.forEach((q, index) => {
+                    summary += `*Q${index + 1}: ${q.title}*\n👉 Answer: ${userAnswers[index] || "Yes ❤️"}\n\n`;
+                });
+                summary += "She said YES! 🎉";
+
+                const phone = "254110532320";
+                const text = encodeURIComponent(summary);
+                document.getElementById('whatsappBtn').href = `https://wa.me/${phone}?text=${text}`;
+            }
+        }
+
+        // Affirmation Slider Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.affirmation-text');
+
+        function rotateSlider() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        window.onload = function() {
+            loadQuestion();
+            setInterval(rotateSlider, 3500); // Change affirmation every 3.5 seconds
+        };
+    </script>
+
+</body>
+</html>
